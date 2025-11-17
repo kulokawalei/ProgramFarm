@@ -1,0 +1,71 @@
+import AreaControl
+import PlantAll
+import Tool
+import FindMeasure
+
+AreaPlant = {
+	Entities.Grass: [(0,0), (7,8), PlantAll.PlantGrass],
+	Entities.Bush: [(0,0), (1,1), PlantAll.PlantBush],
+	Entities.Tree: [(get_world_size() - 9,0),
+		(get_world_size() - 1,8), PlantAll.PlantTree],
+	Entities.Carrot: [(get_world_size() - 30,get_world_size() - 10),
+		(get_world_size() - 21,get_world_size() - 1), PlantAll.PlantCarrot],
+	Entities.Pumpkin: [(get_world_size() - 20,get_world_size() - 10),
+		(get_world_size() - 11,get_world_size() - 1), PlantAll.PlantPumpkin],
+	Entities.Sunflower: [(get_world_size() - 4,get_world_size() - 19),
+		(get_world_size() - 1,get_world_size() - 12), PlantAll.PlantSunFlower],
+	Entities.Cactus: [(get_world_size() - 10, get_world_size() - 10),
+		(get_world_size() - 1,get_world_size() - 1), PlantAll.plantCactus],
+}
+
+def test11(key):
+	global AreaPlant
+	Info = AreaPlant[key]
+	Tool.GoPosition(Info[0])
+	AreaControl.AreaMove(Info[0], Info[1], Info[2])
+	
+def GrassArea():
+	Info = AreaPlant[Entities.Grass]
+	Tool.GoPosition(Info[0])
+	AreaControl.AreaMove(Info[0], Info[1], Info[2])
+def TreeArea():
+	Info = AreaPlant[Entities.Tree]
+	Tool.GoPosition(Info[0])
+	AreaControl.AreaMove(Info[0], Info[1], Info[2])
+def CarrotArea():
+	Info = AreaPlant[Entities.Carrot]
+	Tool.GoPosition(Info[0])
+	AreaControl.AreaMove(Info[0], Info[1], Info[2])
+def PunmkinArea():
+	Info = AreaPlant[Entities.Pumpkin]
+	PlantAll.SetPumpkinArea(Info[0], Info[1])
+	while(1):
+		Tool.GoPosition(Info[0])
+		AreaControl.AreaMoveOnce(Info[0], Info[1], Info[2])
+def SunflowerArea():
+	Info = AreaPlant[Entities.Sunflower]
+	Tool.GoPosition(Info[0])
+	AreaControl.AreaMove(Info[0], Info[1], Info[2])
+def CactusArea():
+	Info = AreaPlant[Entities.Cactus]
+	while(1):
+		Tool.GoPosition(Info[0])
+		harvest()
+		AreaControl.AreaMoveOnce(Info[0], Info[1], Info[2])
+def MeasureArea():
+	print("wait wait wait")
+	while(1):
+		Tool.GoPosition((0,0))
+		harvest()
+		plant(Entities.Bush)
+		substance = 22* 2**(num_unlocked(Unlocks.Mazes) - 1)
+		use_item(Items.Weird_Substance, substance)
+		FindMeasure.FindMeasure()
+clear()
+spawn_drone(CarrotArea)
+spawn_drone(PunmkinArea)
+spawn_drone(SunflowerArea)
+spawn_drone(CactusArea)
+spawn_drone(MeasureArea)
+TreeArea()
+
