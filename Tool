@@ -1,0 +1,25 @@
+def UseWater(thread):
+	if(get_water() < thread):
+		use_item(Items.Water)
+def ReturnBase():
+	while(get_pos_x()):
+		move(West)
+	while(get_pos_y()):
+		move(South)
+def GoPosition(pos = (0,0)):
+	deltaX = get_pos_x() - pos[0]
+	deltaY = get_pos_y() - pos[1]
+	if(deltaX > 0):
+		for i in range(deltaX):
+			move(West)
+	else:
+		for i in range(abs(deltaX)):
+			move(East)
+	if(deltaY > 0):
+		for i in range(deltaY):
+			move(South)
+	else:
+		for i in range(abs(deltaY)):
+			move(North)
+	
+	
