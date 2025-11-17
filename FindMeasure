@@ -32,4 +32,4 @@ def FindMeasure():
 				moveDirection = moveDir
 			elif(can_move(moveDirection)):
 				move(moveDirection)
-	harvest()
+	harvest() #出循环说明到宝藏了
