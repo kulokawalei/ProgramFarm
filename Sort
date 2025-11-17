@@ -1,0 +1,21 @@
+def BubbleSort(numList):
+	for i in range(numList):
+		for j in range(numList - i - 1):
+			if(numList[i] > numList[i + 1]):
+				tmp = numList[i]
+				numList[i] = numList[i + 1]
+				numList[i + 1] = tmp
+def SwitchCactus():
+	cur = measure()
+	right = measure(East)
+	up = measure(North)
+	left = measure(West)
+	down = measure(South)
+	if((right != None) and (cur > right)):
+		swap(East)
+	if((up != None) and (cur > up)):
+		swap(North)
+	if((left != None) and (cur < left)):
+		swap(West)
+	if((down != None) and (cur < down)):
+		swap(South)
