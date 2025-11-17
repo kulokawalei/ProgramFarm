@@ -21,5 +21,3 @@ def GoPosition(pos = (0,0)):
 	else:
 		for i in range(abs(deltaY)):
 			move(North)
-	
-	
