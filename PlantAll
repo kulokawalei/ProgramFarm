@@ -1,0 +1,129 @@
+import Tool
+import Sort
+
+TreeCount = 0
+def PlantGrass():
+	if(get_ground_type() == Grounds.Soil):
+		till()
+	if(can_harvest()):
+		harvest()
+def PlantBush():
+	if(can_harvest()):
+		harvest()
+		plant(Entities.Bush)
+def PlantTree():
+	global TreeCount
+	if(get_entity_type() == None):
+		plant(Entities.Bush)
+	if(can_harvest()):
+		harvest()
+		use_item(Items.Weird_Substance)
+		if(TreeCount % 2 == 0):
+			plant(Entities.Tree)
+			#use_item(Items.Fertilizer)
+		#if(TreeCount % 2 == 1):
+			#plant(Entities.Grass)
+	TreeCount += 1
+def PlantCarrot():
+	if(get_ground_type() != Grounds.Soil):
+		till()
+	if(can_harvest()):
+		harvest()
+		plant(Entities.Carrot)
+		#Tool.UseWater(0.1)
+	if(get_entity_type() != Entities.Carrot):
+		plant(Entities.Carrot)
+		#Tool.UseWater(0.1)
+		
+PumpkinNum = 0
+PumpkinArea = [(0,0),(1,1)]
+def SetPumpkinArea(pos0, pos1):
+	global PumpkinArea
+	global PumpkinNum
+	PumpkinArea[0] = pos0
+	PumpkinArea[1] = pos1
+	PumpkinNum = ((PumpkinArea[1][1] - PumpkinArea[0][1] + 1) * 
+		(PumpkinArea[1][0] - PumpkinArea[0][0] + 1))
+PumpkinCount = 0
+PumpkinStage = 0
+DeadPumpkinList = []
+def PlantPumpkin():
+	global PumpkinNum
+	global PumpkinCount
+	global PumpkinStage
+	global DeadPumpkinList
+	if(PumpkinStage == 0):
+		if(get_ground_type() != Grounds.Soil):
+			till()
+		if(get_entity_type() != Entities.Pumpkin):
+			plant(Entities.Pumpkin)
+			PumpkinCount += 1
+		if(PumpkinCount == PumpkinNum):
+			PumpkinStage = 1
+			PumpkinCount = 0
+	if(PumpkinStage == 1):
+		if(get_entity_type() == Entities.Dead_Pumpkin):
+			plant(Entities.Pumpkin)
+			DeadPumpkinList.append((get_pos_x(), get_pos_y()))
+		if(PumpkinCount == PumpkinNum):
+			PumpkinStage = 2
+		PumpkinCount += 1
+	if(PumpkinStage == 2):
+		while(len(DeadPumpkinList)):
+			for i in DeadPumpkinList:
+				Tool.GoPosition(i)
+				if(can_harvest()):
+					DeadPumpkinList.remove(i)
+				else:
+					plant(Entities.Pumpkin)
+		harvest()
+		PumpkinCount = 0
+		PumpkinStage = 0
+
+SunFlowerList = []
+SunFlowerPosList = {
+	7: [], 8: [], 9: [], 10: [], 11: [],
+	12: [], 13: [], 14: [], 15: []
+}
+maxNum = 0
+SunFlowerCount = 0
+SunFlowerFlag = False
+SunFlowerLastPos = (0,0)
+def PlantSunFlower():
+	global SunFlowerList
+	global SunFlowerPosList
+	global maxNum
+	global SunFlowerCount
+	global SunFlowerFlag
+	global SunFlowerLastPos
+	if(get_ground_type() != Grounds.Soil):
+		till()
+	if(SunFlowerFlag == False):
+		if(get_entity_type() != Entities.Sunflower):
+			plant(Entities.Sunflower)
+			Tool.UseWater(0.75)
+			SunFlowerCount += 1
+			SunFlowerList.append(measure())
+			SunFlowerPosList[measure()].append((get_pos_x(), get_pos_y()))
+		if(SunFlowerCount == 32):
+			SunFlowerLastPos = (get_pos_x(), get_pos_y())
+			SunFlowerFlag = True
+	else:
+		while(SunFlowerCount > 10):
+			maxNum = max(SunFlowerList)
+			Tool.GoPosition(SunFlowerPosList[maxNum][0])
+			while(can_harvest() == False):
+				get_world_size()
+			harvest()
+			SunFlowerList.remove(maxNum)
+			SunFlowerPosList[maxNum].remove((get_pos_x(), get_pos_y()))
+			SunFlowerCount -= 1
+		Tool.GoPosition(SunFlowerLastPos)
+		SunFlowerFlag = False
+
+def plantCactus():
+	if(get_ground_type() != Grounds.Soil):
+		till()
+	if(get_entity_type() == None):
+		plant(Entities.Cactus)
+	Sort.SwitchCactus()
