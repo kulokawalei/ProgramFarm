@@ -13,7 +13,7 @@ steam游戏编程农场，笨蛋解法，展示思路<br>
 2、全种满后，遍历列表找到最大值，把最大值作为key，去字典key对应列表的第一个坐标，收获，把当前坐标从字典的列表里remove掉，并且把最大值从列表A remove掉，确保字典和列表A同步变化<br>
 3、一直重复到只剩10朵花，然后回到1，把全区域种满<br>
 
-# pumpkin\n
+# pumpkin
 stage0：先把全区域种满 进入stage1<br>
 stage1：遍历该区域，遇到dead_pumpkin就种一个pumkin，并且把当前坐标加入列表B，遍历完成进入stage2<br>
 stage2：遍历列表B每一个坐标，可以收获了就把该坐标remove，不可以收获（还是长成了dead_pumpkin）就再种一个，一直重复到没有列表为空（没dead_pumpkin了），就收获，回到stage0<br>
