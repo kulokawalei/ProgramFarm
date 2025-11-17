@@ -1,0 +1,35 @@
+import Tool
+def FindMeasure():
+	direction = [East, South, West, North]
+	directionp = {
+	East: South,
+	South: West,
+	West: North,
+	North: East
+	}
+	directionpp = {
+	East: West,
+	South: North,
+	West: East,
+	North: South
+	}
+	moveDirection = East
+	moveDir = South
+	while((get_pos_x(),get_pos_y()) != measure()):
+		#print(moveDir, moveDirection)
+		for i in range(len(direction)):
+			moveDir = directionp[moveDirection]
+		if(can_move(moveDir)):
+			move(moveDir)
+			moveDirection = moveDir
+		elif(can_move(moveDirection)):
+			move(moveDirection)			
+		else:
+			moveDirection = directionpp[moveDirection]
+			moveDir = directionp[moveDirection]
+			if(can_move(moveDir)):
+				move(moveDir)
+				moveDirection = moveDir
+			elif(can_move(moveDirection)):
+				move(moveDirection)
+	harvest()
