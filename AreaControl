@@ -1,0 +1,50 @@
+def AreaListInit():
+	list = [[]]
+	for i in range(get_world_size()):
+		for j in range(get_world_size()):
+			list[i].append(get_world_size()*get_world_size())
+		list.append([])
+		#print(list[i])
+	return list
+
+def AreaDefine(list, a = (0,0), b = (1,1), type = Entities.Grass):
+	for i in range(a[0], b[0] + 1):
+		for j in range(a[1], b[1] + 1):
+			list[i][j] = type
+			#print(i,j)
+
+def AreaMoveOnce(pos0, pos1, do):
+	flag = False
+	moveDirx = [West, East]
+	limitx = [pos0[0], pos1[0]]
+	currentDirx = 1
+	currentDiry = 1
+	while(1):
+		for i in range(pos1[0] - pos0[0]):
+			do()
+			move(moveDirx[currentDirx])
+			if(get_pos_x() == limitx[currentDirx]):
+				currentDirx = abs(currentDirx - 1)
+		do()
+		if(flag):
+			return
+		move(North)
+		if((get_pos_x(),get_pos_y()) == pos1):
+			flag = True
+
+def AreaMove(pos0, pos1, do):
+	moveDirx = [West, East]
+	moveDiry = [South, North]
+	limitx = [pos0[0], pos1[0]]
+	limity = [pos0[1], pos1[1]]
+	currentDirx = 1
+	currentDiry = 1
+	while(1):
+		while(get_pos_x() != limitx[currentDirx]):
+			do()
+			move(moveDirx[currentDirx])
+		currentDirx = abs(currentDirx - 1)
+		do()
+		if(get_pos_y() == limity[currentDiry]):
+			currentDiry = abs(currentDiry - 1)
+		move(moveDiry[currentDiry])
